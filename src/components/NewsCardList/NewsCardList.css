@@ -1,0 +1,41 @@
+.cards {
+  padding: 80px 95px 102px;
+  background-color: #f5f6f7;
+  margin: 0 auto;
+  max-width: 1440px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards__title {
+  font-family: 'Roboto Slab';
+  margin: 0;
+  color: #1a1b22;
+  margin-bottom: 64px;
+}
+
+.cards__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  gap: 16px;
+}
+
+.cards__button {
+  align-self: center;
+  max-width: 288px;
+  margin-top: 64px;
+  border: none;
+  background-color: #fff;
+  font-weight: 500;
+  border-radius: 80px;
+  padding: 20px 98px;
+  transition: background-color 0.5s;
+  cursor: pointer;
+}
+
+.cards__button:hover {
+  background-color: #e8e8e8;
+}

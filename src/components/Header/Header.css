@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(196, 196, 196, 0.4);
+  padding: 19px 104px 13px;
+}
+
+.header_path_saved-news {
+  color: #1a1b22;
+}
+
+.header__link {
+  text-decoration: none;
+}
+
+.header__logo {
+  margin: 0;
+  font-family: 'Roboto Slab';
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.header__logo_path_main {
+  color: #fff;
+}
+
+.header__logo_path_saved-news {
+  color: #1a1b22;
+}

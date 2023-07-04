@@ -1,0 +1,26 @@
+.saved-news-header {
+  padding: 40px 0 56px 104px;
+  color: #1a1b22;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.saved-news-header__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(26, 27, 34, 0.5);
+}
+
+.saved-news-header__paragraph {
+  margin: 0;
+  font-size: 40px;
+  font-family: 'Roboto Slab';
+  max-width: 530px;
+  line-height: 1.15;
+}
+
+.saved-news-header__keywords {
+  margin: 0;
+}

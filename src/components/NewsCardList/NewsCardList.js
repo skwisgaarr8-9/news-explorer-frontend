@@ -3,24 +3,35 @@ import { useMatch } from 'react-router-dom';
 import NewsCard from '../NewsCard/NewsCard';
 import './NewsCardList.css';
 
-function NewsCardList({ newsArticles, isLoggedIn, handleSigninClick }) {
+function NewsCardList({
+  newsArticles,
+  isLoggedIn,
+  handleSigninClick,
+  handleSeeMoreClick,
+  numberOfCards,
+}) {
   const match = useMatch('/');
 
   return (
     <div className="cards">
       <h2 className="cards__title">Search results</h2>
       <ul className="cards__list">
-        {newsArticles.map((article) => (
+        {newsArticles.slice(0, numberOfCards).map((article, index) => (
           <NewsCard
-            key={article.source.id}
+            key={index}
             cardInfo={article}
             isLoggedIn={isLoggedIn}
             handleSigninClick={handleSigninClick}
+            numberOfCards={numberOfCards}
           />
         ))}
       </ul>
-      {match && (
-        <button type="button" className="cards__button">
+      {match && numberOfCards < newsArticles.length && (
+        <button
+          onClick={handleSeeMoreClick}
+          type="button"
+          className="cards__button"
+        >
           See more
         </button>
       )}

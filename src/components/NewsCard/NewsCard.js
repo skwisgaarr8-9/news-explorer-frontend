@@ -15,6 +15,10 @@ function NewsCard({ cardInfo, isLoggedIn, handleSigninClick }) {
       .classList.remove('card__warning_active');
   };
 
+  const handleCardClick = () => {
+    window.open(cardInfo.url, '_blank');
+  };
+
   const publishedAt = new Date(cardInfo.publishedAt).toLocaleDateString(
     'en-US',
     { year: 'numeric', month: 'long', day: 'numeric' }
@@ -26,8 +30,9 @@ function NewsCard({ cardInfo, isLoggedIn, handleSigninClick }) {
         className="card__image"
         src={cardInfo.urlToImage}
         alt={cardInfo.title}
+        onClick={handleCardClick}
       />
-      <div className="card__content">
+      <div className="card__content" onClick={handleCardClick}>
         <p className="card__date">{publishedAt}</p>
         <h2 className="card__title">{cardInfo.title}</h2>
         <p className="card__paragraph">{cardInfo.description}</p>

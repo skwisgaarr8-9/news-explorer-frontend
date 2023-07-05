@@ -10,19 +10,18 @@ import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
 import SavedNews from '../SavedNews/SavedNews';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-// import getNewsData from '../../utils/newsApi';
-// import dog from '../../images/dog.png';
+import getNewsData from '../../utils/newsApi';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [newsArticles, setNewsArticles] = React.useState(null);
   const [searchTopic, setSearchTopic] = React.useState(null);
+  const [numberOfCards, setNumberOfCards] = React.useState(3);
 
   const match = useMatch('/');
 
-  // const apiKey = 'b70d0142119b439a91cf6ee46fd0f5b5';
-  // const keyword = 'elon musk';
+  const apiKey = 'c6fcee4b4720458b93633a4eb3c03f78';
 
   const closeModal = () => {
     setActiveModal(null);
@@ -36,19 +35,18 @@ function App() {
   const searchBtnClick = (topic) => {
     if (topic !== searchTopic) {
       setSearchTopic(topic);
+      getNewsData({ apiKey, topic })
+        .then((data) => {
+          setNewsArticles(data.articles);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
     if (topic === '') {
       setSearchTopic(null);
     }
-
-    console.log(searchTopic);
-    // getNewsData({ apiKey, topic }).then((data) => {
-    //   setNewsArticles(data.articles);
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
-    // setNewsArticles(cardInfo);
   };
 
   const handleSigninClick = () => {
@@ -63,41 +61,9 @@ function App() {
     setActiveModal('login');
   };
 
-  // getNewsData({ apiKey, keyword })
-  //   .then((data) => {
-  //     searchBtnClick(data.articles);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-
-  React.useEffect(() => {
-    const cardInfo = [
-      {
-        source: {
-          id: 'the-verge',
-          name: 'The Verge',
-        },
-        author: 'Emma Roth',
-        title:
-          'Mt. Gox: all the news on Bitcoin’s original biggest bankruptcy scandal',
-        description:
-          'One of the strangest stories in crypto still isn’t over. Mt. Gox went bankrupt in 2014 after losing track of more than 650,000 Bitcoins through theft or mismanagement and its CEO was arrested. But the story didn’t end there.',
-        url: 'https://www.theverge.com/2014/3/21/5533272/mt-gox-missing-bitcoins',
-        urlToImage:
-          'https://cdn.vox-cdn.com/thumbor/cT46bayUXzTSLryuplguioQYo78=/0x0:560x372/1200x628/filters:focal(280x186:281x187)/cdn.vox-cdn.com/uploads/chorus_asset/file/10987061/mt-gox-hq.0.0.jpg',
-        publishedAt: '2023-06-09T17:28:51Z',
-        content:
-          'Filed under:\r\nByJacob Kastrenakes, a deputy editor who oversees tech and news coverage. Since joining The Verge in 2012, hes published 5,000+ stories and is the founding editor of the creators desk. … [+17914 chars]',
-      },
-    ];
-
-    if (searchTopic) {
-      setNewsArticles(cardInfo);
-    } else {
-      setNewsArticles(null);
-    }
-  }, [searchTopic]);
+  const handleSeeMoreClick = () => {
+    setNumberOfCards(numberOfCards + 3);
+  };
 
   return (
     <div className="page">
@@ -135,9 +101,11 @@ function App() {
       </div>
       {newsArticles && match && (
         <NewsCardList
+          numberOfCards={numberOfCards}
           newsArticles={newsArticles}
           isLoggedIn={isLoggedIn}
           handleSigninClick={handleSigninClick}
+          handleSeeMoreClick={handleSeeMoreClick}
         />
       )}
       {match && <About />}

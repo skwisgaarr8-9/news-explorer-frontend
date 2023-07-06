@@ -2,13 +2,19 @@ import { Link, useMatch } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import './Header.css';
 
-function Header({ isLoggedIn, handleSigninClick, handleLogoutClick }) {
+function Header({
+  isLoggedIn,
+  handleSigninClick,
+  handleLogoutClick,
+  handleHomeClick,
+}) {
   const match = useMatch('/');
 
   return (
     <div className="header">
       <Link className="header__link" to="/">
         <p
+          onClick={handleHomeClick}
           className={
             match
               ? 'header__logo header__logo_path_main'
@@ -19,6 +25,7 @@ function Header({ isLoggedIn, handleSigninClick, handleLogoutClick }) {
         </p>
       </Link>
       <Navigation
+        handleHomeClick={handleHomeClick}
         isLoggedIn={isLoggedIn}
         handleSigninClick={handleSigninClick}
         handleLogoutClick={handleLogoutClick}

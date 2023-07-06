@@ -17,7 +17,7 @@ function App() {
   const [activeModal, setActiveModal] = React.useState(null);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [newsArticles, setNewsArticles] = React.useState(null);
-  // const [searchTopic, setSearchTopic] = React.useState(null);
+  const [searchTopic, setSearchTopic] = React.useState(null);
   const [numberOfCards, setNumberOfCards] = React.useState(3);
   const [isSearching, setIsSearching] = React.useState(false);
   const [nothingFound, setNothingFound] = React.useState(false);
@@ -30,11 +30,18 @@ function App() {
     setActiveModal(null);
   };
 
+  const handleHomeClick = () => {
+    setNewsArticles(null);
+    setIsSearching(false);
+    localStorage.removeItem('articles');
+  };
+
   const handleLogoutClick = () => {
     setIsLoggedIn(false);
   };
 
   const searchBtnClick = (topic) => {
+    setSearchTopic(topic);
     setNewsArticles(null);
     setNothingFound(false);
     setIsSearching(true);
@@ -45,6 +52,7 @@ function App() {
         } else {
           setNewsArticles(data.articles);
           setIsSearching(false);
+          localStorage.setItem('articles', JSON.stringify(data.articles));
         }
       })
       .catch((err) => {
@@ -68,6 +76,12 @@ function App() {
     setNumberOfCards(numberOfCards + 3);
   };
 
+  React.useEffect(() => {
+    if (localStorage.getItem('articles')) {
+      setNewsArticles(JSON.parse(localStorage.getItem('articles')));
+    }
+  }, []);
+
   return (
     <div className="page">
       <div
@@ -81,12 +95,15 @@ function App() {
           isLoggedIn={isLoggedIn}
           handleSigninClick={handleSigninClick}
           handleLogoutClick={handleLogoutClick}
+          handleHomeClick={handleHomeClick}
         />
         <Routes>
           <Route
             exact
             path="/"
-            element={<Main searchBtnClick={searchBtnClick} />}
+            element={
+              <Main searchBtnClick={searchBtnClick} isSearching={isSearching} />
+            }
           />
           <Route
             path="/saved-news"
@@ -107,6 +124,7 @@ function App() {
       )}
       {newsArticles && match && (
         <NewsCardList
+          searchTopic={searchTopic}
           numberOfCards={numberOfCards}
           newsArticles={newsArticles}
           isLoggedIn={isLoggedIn}
@@ -115,7 +133,7 @@ function App() {
         />
       )}
       {match && <About />}
-      <Footer />
+      <Footer handleHomeClick={handleHomeClick} />
       {activeModal === 'login' && (
         <LoginModal
           isActive={true}

@@ -3,12 +3,18 @@ import logOutWhite from '../../images/logout-white.svg';
 import logOutBlack from '../../images/logout-black.svg';
 import './Navigation.css';
 
-function Navigation({ isLoggedIn, handleSigninClick, handleLogoutClick }) {
+function Navigation({
+  isLoggedIn,
+  handleSigninClick,
+  handleLogoutClick,
+  handleHomeClick,
+}) {
   const match = useMatch('/');
 
   return (
     <div className="nav">
       <NavLink
+        onClick={handleHomeClick}
         className={({ isActive }) =>
           match && isActive
             ? 'nav__link nav__link_path_main_active'

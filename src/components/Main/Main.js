@@ -1,7 +1,7 @@
 import SearchForm from '../SearchForm/SearchForm';
 import './Main.css';
 
-function Main({ searchBtnClick }) {
+function Main({ searchBtnClick, isSearching }) {
   return (
     <main className="main">
       <h1 className="main__heading">What's going on in the world?</h1>
@@ -9,7 +9,7 @@ function Main({ searchBtnClick }) {
         Find the latest news on any topic and save them in your personal
         account.
       </p>
-      <SearchForm searchBtnClick={searchBtnClick} />
+      <SearchForm searchBtnClick={searchBtnClick} isSearching={isSearching} />
     </main>
   );
 }

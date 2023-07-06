@@ -5,8 +5,6 @@ const weekPriorDateString = new Date(
 ).toLocaleDateString('sv-SE');
 
 const getNewsData = ({ apiKey, topic }) => {
-  console.log(currentDateString);
-  console.log(weekPriorDateString);
   return fetch(
     `https://newsapi.org/v2/everything?q=${topic}&from=${weekPriorDateString}&to=${currentDateString}&pageSize=100`,
     {

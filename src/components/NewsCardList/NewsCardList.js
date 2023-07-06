@@ -9,12 +9,13 @@ function NewsCardList({
   handleSigninClick,
   handleSeeMoreClick,
   numberOfCards,
+  searchTopic,
 }) {
   const match = useMatch('/');
 
   return (
     <div className="cards">
-      <h2 className="cards__title">Search results</h2>
+      <h2 className="cards__title">{`Search results: ${searchTopic}`}</h2>
       <ul className="cards__list">
         {newsArticles.slice(0, numberOfCards).map((article, index) => (
           <NewsCard

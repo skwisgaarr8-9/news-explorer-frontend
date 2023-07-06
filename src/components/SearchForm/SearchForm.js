@@ -1,12 +1,19 @@
+import React from 'react';
 import { useForm } from '../../hooks/useForm';
 import './SearchForm.css';
 
-function SearchForm({ searchBtnClick }) {
-  const { handleChange, values } = useForm({ topic: '' });
+function SearchForm({ searchBtnClick, isSearching }) {
+  const { handleChange, values, setValues } = useForm({ topic: '' });
   const handleSubmit = (evt) => {
     evt.preventDefault();
     searchBtnClick(values.topic);
   };
+
+  React.useEffect(() => {
+    if (!isSearching) {
+      setValues({ topic: '' });
+    }
+  }, [setValues, isSearching]);
 
   return (
     <form className="search-form" onSubmit={handleSubmit}>

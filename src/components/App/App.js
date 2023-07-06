@@ -11,13 +11,16 @@ import RegisterModal from '../RegisterModal/RegisterModal';
 import SavedNews from '../SavedNews/SavedNews';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import getNewsData from '../../utils/newsApi';
+import Preloader from '../Preloader/Preloader';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [newsArticles, setNewsArticles] = React.useState(null);
-  const [searchTopic, setSearchTopic] = React.useState(null);
+  // const [searchTopic, setSearchTopic] = React.useState(null);
   const [numberOfCards, setNumberOfCards] = React.useState(3);
+  const [isSearching, setIsSearching] = React.useState(false);
+  const [nothingFound, setNothingFound] = React.useState(false);
 
   const match = useMatch('/');
 
@@ -31,22 +34,22 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  //only used until api is connected
   const searchBtnClick = (topic) => {
-    if (topic !== searchTopic) {
-      setSearchTopic(topic);
-      getNewsData({ apiKey, topic })
-        .then((data) => {
+    setNewsArticles(null);
+    setNothingFound(false);
+    setIsSearching(true);
+    getNewsData({ apiKey, topic })
+      .then((data) => {
+        if (data.articles.length === 0) {
+          setNothingFound(true);
+        } else {
           setNewsArticles(data.articles);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-    if (topic === '') {
-      setSearchTopic(null);
-    }
+          setIsSearching(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSigninClick = () => {
@@ -99,6 +102,9 @@ function App() {
           />
         </Routes>
       </div>
+      {isSearching && (
+        <Preloader isSearching={isSearching} nothingFound={nothingFound} />
+      )}
       {newsArticles && match && (
         <NewsCardList
           numberOfCards={numberOfCards}

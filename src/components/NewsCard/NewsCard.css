@@ -11,9 +11,9 @@
 
 .card__image {
   border-radius: 18px 18px 0 0;
-  width: 400px;
-  height: 272px;
-  /* cursor: pointer; */
+  max-width: 400px;
+  max-height: 272px;
+  height: 100%;
 }
 .card__content {
   height: 304px;

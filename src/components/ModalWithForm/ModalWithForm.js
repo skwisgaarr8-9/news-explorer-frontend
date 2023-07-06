@@ -10,6 +10,7 @@ function ModalWithForm({
   handleSubmit,
   isActive,
   handleRedirect,
+  isFormValid,
 }) {
   useEscape(handleCloseModal);
 
@@ -41,7 +42,11 @@ function ModalWithForm({
         <form className="modal__form form" onSubmit={handleSubmit}>
           <h2 className="modal__title">{title}</h2>
           {children}
-          <button className="modal__button" type="submit">
+          <button
+            disabled={!isFormValid}
+            className="modal__button"
+            type="submit"
+          >
             {submitButtonText}
           </button>
           <div className="modal__redirect">

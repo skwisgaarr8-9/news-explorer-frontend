@@ -31,3 +31,7 @@
 .search-form__button:hover {
   background-color: #347eff;
 }
+
+.search-form__button:active {
+  background-color: #2a65cc;
+}

@@ -1,18 +1,22 @@
 import React from 'react';
 import './RegisterModal.css';
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { useForm } from '../../hooks/useForm';
 
 function RegisterModal({ closeModal, isActive, handleLoginClick }) {
-  const { values, handleChange, setValues } = useForm({
+  const {
+    values,
+    handleChange,
+    setValues,
+    isFormValid,
+    setIsFormValid,
+    isInvalid,
+  } = useForm({
     email: '',
     password: '',
     username: '',
   });
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-  };
 
   React.useEffect(() => {
     if (isActive) {
@@ -24,6 +28,18 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
     }
   }, [isActive, setValues]);
 
+  React.useEffect(() => {
+    if (Object.values(isInvalid).every((item) => item === false)) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [isInvalid, setIsFormValid]);
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+  };
+
   return (
     <ModalWithForm
       title={'Sign up'}
@@ -33,6 +49,7 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
       handleSubmit={handleSubmit}
       isActive={isActive}
       handleRedirect={handleLoginClick}
+      isFormValid={isFormValid}
     >
       <label className="form__label" htmlFor="email">
         Email
@@ -48,6 +65,12 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
         required
         onChange={handleChange}
       />
+      {isInvalid.email && (
+        <ErrorMessage
+          errorMessage={'Invalid email address'}
+          className={'error-message error-message_content_email'}
+        />
+      )}
       <label className="form__label" htmlFor="password">
         Password
       </label>
@@ -61,7 +84,14 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
         placeholder="Enter password"
         required
         onChange={handleChange}
+        minLength={3}
       />
+      {isInvalid.password && (
+        <ErrorMessage
+          errorMessage={'Invalid password'}
+          className={'error-message error-message_content_password'}
+        />
+      )}
       <label className="form__label" htmlFor="username">
         Username
       </label>
@@ -75,7 +105,15 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
         placeholder="Enter your username"
         required
         onChange={handleChange}
+        minLength={2}
+        maxLength={30}
       />
+      {isInvalid.username && (
+        <ErrorMessage
+          errorMessage={'Invalid username'}
+          className={'error-message error-message_content_username'}
+        />
+      )}
     </ModalWithForm>
   );
 }

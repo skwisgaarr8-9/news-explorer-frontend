@@ -15,6 +15,7 @@
 }
 
 .header__logo {
+  line-height: 1.2;
   margin: 0;
   font-family: 'Roboto Slab';
   font-size: 20px;
@@ -28,4 +29,14 @@
 
 .header__logo_path_saved-news {
   color: #1a1b22;
+}
+
+@media screen and (max-width: 919px) {
+  .header {
+    padding: 14px 40px 12px;
+  }
+
+  .header__logo {
+    font-size: 20px;
+  }
 }

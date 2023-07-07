@@ -5,8 +5,8 @@
   background-color: white;
   margin: 0 auto;
   max-width: 1440px;
-  padding-top: 80px;
-  padding-left: 104px;
+  padding: 80px 104px 80px;
+  box-sizing: border-box;
 }
 
 .about__description {
@@ -28,4 +28,31 @@
 
 .about__paragraph {
   margin: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .about {
+    padding: 80px 52px 80px;
+  }
+}
+
+@media screen and (max-width: 919px) {
+  .about {
+    padding: 40px;
+    gap: 32px;
+  }
+
+  .about__description {
+    padding: 0;
+    gap: 16px;
+  }
+
+  .about__heading {
+    font-size: 30px;
+  }
+
+  .about__image {
+    width: 232px;
+    height: 232px;
+  }
 }

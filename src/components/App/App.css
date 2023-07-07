@@ -19,3 +19,11 @@
 .heading {
   margin: 0;
 }
+
+@media screen and (max-width: 768px) {
+  .page__content_path_main {
+    background-image: url(../../images/main-background-medium.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}

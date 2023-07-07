@@ -12,16 +12,18 @@ import SavedNews from '../SavedNews/SavedNews';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import getNewsData from '../../utils/newsApi';
 import Preloader from '../Preloader/Preloader';
+import { placeholder } from '../../utils/constants';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
   const [newsArticles, setNewsArticles] = React.useState(null);
   const [searchTopic, setSearchTopic] = React.useState(null);
   const [numberOfCards, setNumberOfCards] = React.useState(3);
   const [isSearching, setIsSearching] = React.useState(false);
   const [nothingFound, setNothingFound] = React.useState(false);
-
+  //place holder value until back end is written in later stage
+  const [savedNewsArticles, setSavedNewsArticles] = React.useState(placeholder);
   const match = useMatch('/');
 
   const apiKey = 'c6fcee4b4720458b93633a4eb3c03f78';
@@ -34,6 +36,7 @@ function App() {
     setNewsArticles(null);
     setIsSearching(false);
     localStorage.removeItem('articles');
+    localStorage.removeItem('topic');
   };
 
   const handleLogoutClick = () => {
@@ -53,6 +56,7 @@ function App() {
           setNewsArticles(data.articles);
           setIsSearching(false);
           localStorage.setItem('articles', JSON.stringify(data.articles));
+          localStorage.setItem('topic', topic);
         }
       })
       .catch((err) => {
@@ -79,6 +83,7 @@ function App() {
   React.useEffect(() => {
     if (localStorage.getItem('articles')) {
       setNewsArticles(JSON.parse(localStorage.getItem('articles')));
+      setSearchTopic(localStorage.getItem('topic'));
     }
   }, []);
 
@@ -111,7 +116,9 @@ function App() {
               <ProtectedRoute isLoggedIn={isLoggedIn}>
                 <SavedNews
                   isLoggedIn={isLoggedIn}
-                  newsArticles={newsArticles}
+                  newsArticles={
+                    isLoggedIn && placeholder ? placeholder : newsArticles
+                  }
                   handleSigninClick={handleSigninClick}
                 />
               </ProtectedRoute>

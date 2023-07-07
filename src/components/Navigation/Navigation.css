@@ -101,3 +101,13 @@
   gap: 15px;
   align-items: center;
 }
+
+@media screen and (max-width: 919px) {
+  .nav__link {
+    font-size: 16px;
+  }
+
+  .nav__button {
+    font-size: 16px;
+  }
+}

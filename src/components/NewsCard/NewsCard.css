@@ -1,5 +1,6 @@
 .card {
   max-width: 400px;
+  width: 32%;
   height: 576px;
   position: relative;
   text-decoration: none;
@@ -24,7 +25,6 @@
   background-color: #fff;
   border-radius: 0 0 18px 18px;
   box-sizing: border-box;
-  /* cursor: pointer; */
 }
 
 .card__date {
@@ -113,4 +113,28 @@
 
 .card__button:hover {
   background-image: url(../../images/bookmark-black.svg);
+}
+
+@media screen and (max-width: 919px) {
+  .card {
+    height: 420px;
+  }
+
+  .card__content {
+    height: 270px;
+  }
+
+  .card__image {
+    max-height: 150px;
+  }
+
+  .card__absolute-content {
+    top: 8px;
+    right: 8px;
+  }
+
+  .card__warning {
+    font-size: 10px;
+    padding: 7px 10px;
+  }
 }

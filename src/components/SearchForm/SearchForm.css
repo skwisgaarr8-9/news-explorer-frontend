@@ -35,3 +35,10 @@
 .search-form__button:active {
   background-color: #2a65cc;
 }
+
+@media screen and (max-width: 919px) {
+  .search-form {
+    margin: 32px 0 0;
+    padding-bottom: 36px;
+  }
+}

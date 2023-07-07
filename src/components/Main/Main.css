@@ -18,3 +18,17 @@
 .main__paragraph {
   margin: 0;
 }
+
+@media screen and (max-width: 919px) {
+  .main {
+    max-width: 450px;
+    padding-top: 0;
+    gap: 16px;
+  }
+
+  .main__heading {
+    font-size: 36px;
+    line-height: 1.11;
+    padding-top: 38px;
+  }
+}

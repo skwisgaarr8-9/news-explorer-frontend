@@ -15,7 +15,9 @@ function NewsCardList({
 
   return (
     <div className="cards">
-      <h2 className="cards__title">{`Search results: ${searchTopic}`}</h2>
+      {match && (
+        <h2 className="cards__title">{`Search results: ${searchTopic}`}</h2>
+      )}
       <ul className="cards__list">
         {newsArticles.slice(0, numberOfCards).map((article, index) => (
           <NewsCard

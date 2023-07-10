@@ -12,12 +12,12 @@ function Footer() {
         </p>
         <div className="footer__social-content">
           <ul className="footer__list">
-            <li className="footer__list-item">
+            <li className="footer__list-item footer__list-item_content_home">
               <Link className="footer__list-link" to="/">
                 Home
               </Link>
             </li>
-            <li className="footer__list-item">
+            <li className="footer__list-item footer__list-item_content_tripleten">
               <a
                 className="footer__list-link"
                 href="https://tripleten.com"
@@ -27,7 +27,7 @@ function Footer() {
                 TripleTen
               </a>
             </li>
-            <li className="footer__list-item">
+            <li className="footer__list-item footer__list-item_content_github">
               <a
                 className="footer__list-social-link"
                 href="https://github.com/skwisgaarr8-9"
@@ -41,7 +41,7 @@ function Footer() {
                 />
               </a>
             </li>
-            <li className="footer__list-item">
+            <li className="footer__list-item footer__list-item_content_linkedin">
               <a
                 className="footer__list-social-link"
                 href="https://www.linkedin.com/in/francis-flanagan/"

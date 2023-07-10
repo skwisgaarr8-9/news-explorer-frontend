@@ -6,10 +6,6 @@
   padding: 19px 104px 13px;
 }
 
-.header_path_saved-news {
-  color: #1a1b22;
-}
-
 .header__link {
   text-decoration: none;
 }
@@ -31,6 +27,13 @@
   color: #1a1b22;
 }
 
+@media screen and (max-width: 1200px) {
+  .header {
+    padding-left: 52px;
+    padding-right: 52px;
+  }
+}
+
 @media screen and (max-width: 919px) {
   .header {
     padding: 14px 40px 12px;
@@ -38,5 +41,16 @@
 
   .header__logo {
     font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .header {
+    padding: 16px;
+  }
+
+  .header__logo {
+    font-size: 16px;
+    line-height: 1.5;
   }
 }

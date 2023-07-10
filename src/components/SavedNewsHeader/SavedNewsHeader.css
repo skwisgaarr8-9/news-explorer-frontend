@@ -23,4 +23,29 @@
 
 .saved-news-header__keywords {
   margin: 0;
+  line-height: 1.33;
+}
+
+@media screen and (max-width: 1200px) {
+  .saved-news-header {
+    padding: 40px 0 40px 56px;
+  }
+}
+
+@media screen and (max-width: 919px) {
+  .saved-news-header {
+    padding: 24px 0 40px 32px;
+    gap: 16px;
+  }
+
+  .saved-news-header__title {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .saved-news-header__paragraph {
+    font-size: 30px;
+    line-height: 1.13;
+    max-width: 336px;
+  }
 }

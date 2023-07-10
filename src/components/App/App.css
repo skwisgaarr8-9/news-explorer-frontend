@@ -27,3 +27,11 @@
     background-size: cover;
   }
 }
+
+@media screen and (max-width: 501px) {
+  .page__content_path_main {
+    background-image: url(../../images/main-background-small.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}

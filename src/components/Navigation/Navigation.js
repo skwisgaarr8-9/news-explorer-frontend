@@ -8,6 +8,7 @@ function Navigation({
   handleSigninClick,
   handleLogoutClick,
   handleHomeClick,
+  handleMobileMenuClick,
 }) {
   const match = useMatch('/');
 
@@ -40,8 +41,8 @@ function Navigation({
             onClick={handleLogoutClick}
             className={
               match
-                ? 'nav__button nav__button_page_main nav__button_content_logout'
-                : 'nav__button nav__button_page_saved-news nav__button_content_logout'
+                ? 'nav__button nav__button_path_main nav__button_content_logout'
+                : 'nav__button nav__button_path_saved-news nav__button_content_logout'
             }
           >
             Elise
@@ -51,13 +52,22 @@ function Navigation({
       ) : (
         <>
           <button
-            className="nav__button nav__button_page_main nav__button_content_signin"
+            className="nav__button nav__button_path_main nav__button_content_signin"
             onClick={handleSigninClick}
           >
             Sign in
           </button>
         </>
       )}
+      <button
+        className={
+          match
+            ? 'nav__menu-button nav__menu-button_path_main'
+            : 'nav__menu-button nav__menu-button_path_saved-news'
+        }
+        type="button"
+        onClick={handleMobileMenuClick}
+      ></button>
     </div>
   );
 }

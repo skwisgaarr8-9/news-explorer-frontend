@@ -17,6 +17,11 @@
   color: #b6bcbf;
   margin: 0;
   font-size: 16px;
+  grid-area: paragraph;
+}
+
+.footer__social-content {
+  grid-area: links;
 }
 
 .footer__list {
@@ -34,6 +39,22 @@
 
 .footer__list-item:hover {
   opacity: 0.4;
+}
+
+.footer__list-item_content_home {
+  grid-area: home;
+}
+
+.footer_list-item_content_tripleten {
+  grid-area: tripleten;
+}
+
+.footer__list-item_content_github {
+  grid-area: github;
+}
+
+.footer__list-item_content_linkedin {
+  grid-area: linkedin;
 }
 
 .footer__list-paragraph {
@@ -65,5 +86,44 @@
 @media screen and (max-width: 919px) {
   .footer {
     padding: 40px 40px 18px;
+  }
+}
+
+@media screen and (max-width: 631px) {
+  .footer__content {
+    display: grid;
+    grid-template-areas:
+      'links'
+      'paragraph';
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+  }
+
+  .footer__list {
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 501px) {
+  .footer {
+    padding: 20px 18px 22px 16px;
+  }
+
+  .footer__content {
+    gap: 38px;
+  }
+
+  .footer__list {
+    display: grid;
+    grid-template-areas:
+      'home github linkedin'
+      'tripleten tripleten tripleten';
+    grid-template-columns: 1fr 24px 24px;
+    column-gap: 26px;
+    row-gap: 24px;
+  }
+
+  .footer__list-social-link {
+    display: block;
   }
 }

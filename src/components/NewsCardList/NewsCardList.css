@@ -8,6 +8,10 @@
   flex-direction: column;
 }
 
+.cards_path_saved-news {
+  padding-top: 62px;
+}
+
 .cards__title {
   font-family: 'Roboto Slab';
   font-size: 40px;
@@ -48,11 +52,19 @@
   .cards {
     padding: 80px 51px 102px;
   }
+
+  .cards_path_saved-news {
+    padding-top: 62px;
+  }
 }
 
 @media screen and (max-width: 919px) {
   .cards {
     padding: 40px;
+  }
+
+  .cards_path_saved-news {
+    padding-top: 32px;
   }
 
   .cards__title {
@@ -71,5 +83,27 @@
     max-width: 240px;
     margin-top: 32px;
     padding: 16px 75px;
+  }
+}
+
+@media screen and (max-width: 631px) {
+  .cards__list {
+    justify-content: normal;
+    column-gap: 16px;
+  }
+}
+
+@media screen and (max-width: 501px) {
+  .cards {
+    padding: 32px 16px 24px;
+  }
+
+  .cards__list {
+    justify-content: center;
+  }
+
+  .cards__button {
+    max-width: 288px;
+    padding: 16px 99px;
   }
 }

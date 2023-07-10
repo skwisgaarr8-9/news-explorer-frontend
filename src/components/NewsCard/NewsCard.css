@@ -138,3 +138,30 @@
     padding: 7px 10px;
   }
 }
+
+@media screen and (max-width: 631px) {
+  .card {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 501px) {
+  .card {
+    max-width: 288px;
+    width: 100%;
+  }
+
+  .card__content {
+    padding: 16px;
+    gap: 8px;
+  }
+
+  .card__title {
+    font-size: 22px;
+    line-height: 1.1;
+  }
+
+  .card__image {
+    height: 196px;
+  }
+}

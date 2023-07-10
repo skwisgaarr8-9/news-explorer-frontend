@@ -13,6 +13,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import getNewsData from '../../utils/newsApi';
 import Preloader from '../Preloader/Preloader';
 import { placeholder } from '../../utils/constants';
+import MenuModal from '../MenuModal/MenuModal';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
@@ -64,6 +65,10 @@ function App() {
       });
   };
 
+  const handleMobileMenuClick = () => {
+    setActiveModal('menu');
+  };
+
   const handleSigninClick = () => {
     setActiveModal('login');
   };
@@ -101,6 +106,7 @@ function App() {
           handleSigninClick={handleSigninClick}
           handleLogoutClick={handleLogoutClick}
           handleHomeClick={handleHomeClick}
+          handleMobileMenuClick={handleMobileMenuClick}
         />
         <Routes>
           <Route
@@ -153,6 +159,13 @@ function App() {
           isActive={true}
           closeModal={closeModal}
           handleLoginClick={handleLoginClick}
+        />
+      )}
+      {activeModal === 'menu' && (
+        <MenuModal
+          closeModal={closeModal}
+          handleSigninClick={handleSigninClick}
+          isActive={true}
         />
       )}
     </div>

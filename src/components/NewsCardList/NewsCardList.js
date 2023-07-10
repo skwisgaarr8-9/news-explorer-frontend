@@ -14,7 +14,7 @@ function NewsCardList({
   const match = useMatch('/');
 
   return (
-    <div className="cards">
+    <div className={match ? 'cards' : 'cards cards_path_saved-news'}>
       {match && (
         <h2 className="cards__title">{`Search results: ${searchTopic}`}</h2>
       )}

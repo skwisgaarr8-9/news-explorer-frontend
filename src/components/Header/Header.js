@@ -7,11 +7,12 @@ function Header({
   handleSigninClick,
   handleLogoutClick,
   handleHomeClick,
+  handleMobileMenuClick,
 }) {
   const match = useMatch('/');
 
   return (
-    <div className="header">
+    <header className="header">
       <Link className="header__link" to="/">
         <p
           onClick={handleHomeClick}
@@ -29,8 +30,9 @@ function Header({
         isLoggedIn={isLoggedIn}
         handleSigninClick={handleSigninClick}
         handleLogoutClick={handleLogoutClick}
+        handleMobileMenuClick={handleMobileMenuClick}
       />
-    </div>
+    </header>
   );
 }
 

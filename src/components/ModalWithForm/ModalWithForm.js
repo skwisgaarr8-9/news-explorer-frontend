@@ -64,7 +64,7 @@ function ModalWithForm({
           className="modal__close-button"
           type="button"
           onClick={handleCloseModal}
-        ></button>
+        />
       </div>
     </div>
   );

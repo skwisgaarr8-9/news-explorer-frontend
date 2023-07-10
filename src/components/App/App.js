@@ -34,6 +34,7 @@ function App() {
   };
 
   const handleHomeClick = () => {
+    closeModal();
     setNewsArticles(null);
     setIsSearching(false);
     localStorage.removeItem('articles');
@@ -166,6 +167,9 @@ function App() {
           closeModal={closeModal}
           handleSigninClick={handleSigninClick}
           isActive={true}
+          isLoggedIn={isLoggedIn}
+          handleLogoutClick={handleLogoutClick}
+          handleHomeClick={handleHomeClick}
         />
       )}
     </div>

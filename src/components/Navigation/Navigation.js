@@ -13,7 +13,7 @@ function Navigation({
   const match = useMatch('/');
 
   return (
-    <div className="nav">
+    <nav className="nav">
       <NavLink
         onClick={handleHomeClick}
         className={({ isActive }) =>
@@ -67,8 +67,8 @@ function Navigation({
         }
         type="button"
         onClick={handleMobileMenuClick}
-      ></button>
-    </div>
+      />
+    </nav>
   );
 }
 

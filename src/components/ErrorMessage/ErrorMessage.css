@@ -23,3 +23,10 @@
 .error-message_content_username {
   bottom: 140px;
 }
+
+@media screen and (max-width: 501px) {
+  .error-message_content_search-form {
+    top: 35px;
+    left: 16px;
+  }
+}

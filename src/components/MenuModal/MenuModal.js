@@ -87,33 +87,6 @@ function MenuModal({
             Sign in
           </button>
         )}
-        {/* {isLoggedIn ? (
-            <>
-              <NavLink
-                className="menu-modal__nav-link menu-modal__nav-link_content_saved-articles"
-                to="/saved-news"
-                onClick={closeModal}
-              >
-                Saved articles
-              </NavLink>
-              <button
-                className="menu-modal__nav-button"
-                type="button"
-                onClick={handleLogoutClick}
-              >
-                Elise
-                <img src={logOut} />
-              </button>
-            </>
-          ) : (
-            <button
-              className="menu-modal__nav-button"
-              type="button"
-              onClick={handleSigninClick}
-            >
-              Sign in
-            </button>
-          )} */}
       </div>
     </div>
   );

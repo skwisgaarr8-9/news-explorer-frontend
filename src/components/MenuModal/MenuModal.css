@@ -36,23 +36,7 @@
   padding: 20px 16px 40px;
   display: flex;
   justify-content: space-between;
-  /* grid-template-columns: 1fr;
-  grid-template-rows: 1fr 56px; */
-  /* display: grid;
-  row-gap: 40px; */
 }
-
-/* .menu-modal__nav_loggedout {
-  grid-template-areas:
-    'home .'
-    'button button';
-}
-
-.menu-modal__nav_loggedin {
-  grid-template-areas:
-    'home saved-articles'
-    'button button';
-} */
 
 .menu-modal__nav-link {
   text-decoration: none;

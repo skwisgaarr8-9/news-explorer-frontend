@@ -76,7 +76,7 @@ function MenuModal({
             onClick={handleLogoutClick}
           >
             Elise
-            <img src={logOut} />
+            <img src={logOut} alt="logout" />
           </button>
         ) : (
           <button

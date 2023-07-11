@@ -9,11 +9,12 @@ function Navigation({
   handleLogoutClick,
   handleHomeClick,
   handleMobileMenuClick,
+  handleSavedArticlesClick,
 }) {
   const match = useMatch('/');
 
   return (
-    <nav className="nav">
+    <nav className={isLoggedIn ? 'nav nav_loggedin' : 'nav nav_loggedout'}>
       <NavLink
         onClick={handleHomeClick}
         className={({ isActive }) =>
@@ -28,6 +29,7 @@ function Navigation({
       {isLoggedIn ? (
         <>
           <NavLink
+            onClick={handleSavedArticlesClick}
             className={({ isActive }) =>
               isActive
                 ? 'nav__link nav__link_path_saved-news_active'

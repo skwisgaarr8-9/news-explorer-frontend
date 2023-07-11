@@ -12,7 +12,7 @@ import SavedNews from '../SavedNews/SavedNews';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import getNewsData from '../../utils/newsApi';
 import Preloader from '../Preloader/Preloader';
-import { placeholder } from '../../utils/constants';
+import { API_KEY, placeholder } from '../../utils/constants';
 import MenuModal from '../MenuModal/MenuModal';
 
 function App() {
@@ -24,16 +24,16 @@ function App() {
   const [isSearching, setIsSearching] = React.useState(false);
   const [nothingFound, setNothingFound] = React.useState(false);
   //place holder value until back end is written in later stage
-  const [savedNewsArticles, setSavedNewsArticles] = React.useState(placeholder);
+  const [savedNewsArticles, setSavedNewsArticles] = React.useState(null);
+  const [newsApiError, setNewsApiError] = React.useState(null);
   const match = useMatch('/');
-
-  const apiKey = 'c6fcee4b4720458b93633a4eb3c03f78';
 
   const closeModal = () => {
     setActiveModal(null);
   };
 
   const handleHomeClick = () => {
+    setNewsApiError(null);
     closeModal();
     setNewsArticles(null);
     setIsSearching(false);
@@ -50,7 +50,7 @@ function App() {
     setNewsArticles(null);
     setNothingFound(false);
     setIsSearching(true);
-    getNewsData({ apiKey, topic })
+    getNewsData({ apiKey: API_KEY, topic })
       .then((data) => {
         if (data.articles.length === 0) {
           setNothingFound(true);
@@ -63,7 +63,13 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setNewsApiError(err);
+        setIsSearching(false);
       });
+  };
+
+  const handleSavedArticlesClick = () => {
+    setSavedNewsArticles(placeholder);
   };
 
   const handleMobileMenuClick = () => {
@@ -108,13 +114,18 @@ function App() {
           handleLogoutClick={handleLogoutClick}
           handleHomeClick={handleHomeClick}
           handleMobileMenuClick={handleMobileMenuClick}
+          handleSavedArticlesClick={handleSavedArticlesClick}
         />
         <Routes>
           <Route
             exact
             path="/"
             element={
-              <Main searchBtnClick={searchBtnClick} isSearching={isSearching} />
+              <Main
+                searchBtnClick={searchBtnClick}
+                isSearching={isSearching}
+                newsApiError={newsApiError}
+              />
             }
           />
           <Route
@@ -123,9 +134,7 @@ function App() {
               <ProtectedRoute isLoggedIn={isLoggedIn}>
                 <SavedNews
                   isLoggedIn={isLoggedIn}
-                  newsArticles={
-                    isLoggedIn && placeholder ? placeholder : newsArticles
-                  }
+                  newsArticles={savedNewsArticles}
                   handleSigninClick={handleSigninClick}
                 />
               </ProtectedRoute>

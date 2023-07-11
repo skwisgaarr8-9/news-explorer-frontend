@@ -1,6 +1,6 @@
 .error-message {
   margin: 0;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: #f00;
   font-weight: 400;
@@ -28,5 +28,17 @@
   .error-message_content_search-form {
     top: 35px;
     left: 16px;
+  }
+
+  .error-message_content_email {
+    top: 115px;
+  }
+
+  .error-message_content_password {
+    top: 197px;
+  }
+
+  .error-message_content_username {
+    bottom: 290px;
   }
 }

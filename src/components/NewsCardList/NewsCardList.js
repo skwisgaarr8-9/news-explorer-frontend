@@ -14,7 +14,7 @@ function NewsCardList({
   const match = useMatch('/');
 
   return (
-    <div className={match ? 'cards' : 'cards cards_path_saved-news'}>
+    <section className={match ? 'cards' : 'cards cards_path_saved-news'}>
       {match && (
         <h2 className="cards__title">{`Search results: ${searchTopic}`}</h2>
       )}
@@ -38,7 +38,7 @@ function NewsCardList({
           See more
         </button>
       )}
-    </div>
+    </section>
   );
 }
 

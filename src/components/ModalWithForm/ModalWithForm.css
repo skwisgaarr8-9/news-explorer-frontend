@@ -43,7 +43,7 @@
 
 .form__label {
   color: #2f71e5;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
 
@@ -52,7 +52,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   margin-bottom: 31px;
   padding: 9px 0 9px 3px;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-size: 14px;
 }
 
@@ -82,7 +82,7 @@
 
 .modal__redirect {
   color: #000;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-size: 14px;
   margin: 0 auto;
 }

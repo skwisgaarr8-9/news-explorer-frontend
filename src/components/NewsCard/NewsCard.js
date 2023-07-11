@@ -1,7 +1,10 @@
 import React from 'react';
 import './NewsCard.css';
+import { useMatch } from 'react-router-dom';
 
 function NewsCard({ cardInfo, isLoggedIn, handleSigninClick }) {
+  const match = useMatch('/');
+
   const handleMouseEnter = (evt) => {
     if (!isLoggedIn && evt.target.classList.contains('card__button')) {
       evt.target.parentElement
@@ -38,20 +41,32 @@ function NewsCard({ cardInfo, isLoggedIn, handleSigninClick }) {
         <p className="card__paragraph">{cardInfo.description}</p>
         <p className="card__source">{cardInfo.source.name}</p>
       </div>
-      <div
-        onMouseOver={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className="card__absolute-content"
-      >
-        <button
-          className="card__warning"
-          type="button"
-          onClick={handleSigninClick}
+      {match ? (
+        <div
+          onMouseOver={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="card__absolute-content"
         >
-          Sign in to save articles
-        </button>
-        <button className="card__button" type="button"></button>
-      </div>
+          <button
+            className="card__warning"
+            type="button"
+            onClick={handleSigninClick}
+          >
+            Sign in to save articles
+          </button>
+          <button
+            className="card__button card__button_path_main"
+            type="button"
+          ></button>
+        </div>
+      ) : (
+        <div className="card__absolute-content">
+          <button
+            className="card__button card__button_path_saved-news"
+            type="button"
+          ></button>
+        </div>
+      )}
     </li>
   );
 }

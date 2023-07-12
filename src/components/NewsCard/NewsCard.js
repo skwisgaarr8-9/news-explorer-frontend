@@ -22,6 +22,12 @@ function NewsCard({ cardInfo, isLoggedIn, handleSigninClick }) {
     window.open(cardInfo.url, '_blank');
   };
 
+  const handleBookMarkButtonClick = (evt) => {
+    evt.target.parentElement
+      .querySelector('.card__button_path_main')
+      .classList.toggle('card__button_path_main_active');
+  };
+
   const publishedAt = new Date(cardInfo.publishedAt).toLocaleDateString(
     'en-US',
     { year: 'numeric', month: 'long', day: 'numeric' }
@@ -55,6 +61,7 @@ function NewsCard({ cardInfo, isLoggedIn, handleSigninClick }) {
             Sign in to save articles
           </button>
           <button
+            onClick={handleBookMarkButtonClick}
             className="card__button card__button_path_main"
             type="button"
           ></button>

@@ -17,7 +17,7 @@ import MenuModal from '../MenuModal/MenuModal';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
   const [newsArticles, setNewsArticles] = React.useState(null);
   const [searchTopic, setSearchTopic] = React.useState(null);
   const [numberOfCards, setNumberOfCards] = React.useState(3);
@@ -97,6 +97,7 @@ function App() {
       setNewsArticles(JSON.parse(localStorage.getItem('articles')));
       setSearchTopic(localStorage.getItem('topic'));
     }
+    setSavedNewsArticles(placeholder);
   }, []);
 
   return (

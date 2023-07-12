@@ -19,7 +19,7 @@
 .about__description {
   color: #1a1b22;
   max-width: 600px;
-  width: 75%;
+  width: 60%;
   padding-top: 51px;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@
 
 .about__heading {
   margin: 0;
-  font-family: 'Roboto Slab';
+  font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
   font-size: 40px;
   font-weight: 400;
   line-height: 1.15;
@@ -55,11 +55,6 @@
   .about {
     align-items: center;
   }
-
-  .about__image {
-    width: 150px;
-    height: 150px;
-  }
 }
 
 @media screen and (max-width: 919px) {
@@ -71,6 +66,7 @@
   .about__description {
     padding: 0;
     gap: 16px;
+    max-width: 424px;
   }
 
   .about__heading {
@@ -78,8 +74,14 @@
   }
 
   .about__image {
-    width: 100px;
-    height: 100px;
+    width: 232px;
+    height: 232px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .about__description {
+    width: 50%;
   }
 }
 
@@ -97,5 +99,6 @@
 
   .about__description {
     max-width: 288px;
+    width: 100%;
   }
 }

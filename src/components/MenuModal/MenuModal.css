@@ -36,6 +36,7 @@
   padding: 20px 16px 40px;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .menu-modal__nav-link {

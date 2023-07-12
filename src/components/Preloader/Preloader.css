@@ -57,7 +57,7 @@
 .preloader__error-header {
   margin: 0;
   color: #1a1b22;
-  font-family: 'Roboto slab';
+  font-family: 'Roboto slab', Arial, Helvetica, sans-serif;
   font-size: 26px;
   font-weight: 400;
   line-height: 1.15;

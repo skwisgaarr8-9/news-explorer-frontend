@@ -9,7 +9,10 @@ function SavedNewsHeader() {
       <p className="saved-news-header__paragraph">{`${userName}, you have ${number} saved articles`}</p>
       {/* placeholder values until back end is implemented */}
       <p className="saved-news-header__keywords">
-        By keywords: Nature, Yellowstone, and 2 other
+        By keywords:{' '}
+        <span className="saved-news-header__keywords_bold">
+          Nature, Yellowstone, and 2 others{' '}
+        </span>
       </p>
     </div>
   );

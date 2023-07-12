@@ -16,7 +16,7 @@
 .saved-news-header__paragraph {
   margin: 0;
   font-size: 40px;
-  font-family: 'Roboto Slab';
+  font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
   max-width: 530px;
   line-height: 1.15;
 }
@@ -24,6 +24,10 @@
 .saved-news-header__keywords {
   margin: 0;
   line-height: 1.33;
+}
+
+.saved-news-header__keywords_bold {
+  font-weight: bold;
 }
 
 @media screen and (max-width: 1200px) {
@@ -53,5 +57,9 @@
 @media screen and (max-width: 501px) {
   .saved-news-header {
     padding: 8px 16px 32px;
+  }
+
+  .saved-news-header__paragraph {
+    margin-bottom: 34px;
   }
 }

@@ -28,13 +28,14 @@
 }
 
 .card__date {
-  font-family: sans-serif;
+  font-family: 'Source Sans Pro';
   color: #b6bcbf;
   margin: 0;
+  line-height: 1.33;
 }
 
 .card__title {
-  font-family: 'Roboto Slab';
+  font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
   color: #1a1b22;
   font-size: 26px;
   margin: 0 0 4px 0;
@@ -62,7 +63,7 @@
 .card__source {
   margin: 0;
   color: #b6bcbf;
-  font-family: 'Roboto Slab';
+  font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   font-size: 16px;
   font-weight: 700;
@@ -118,6 +119,10 @@
   background-image: url(../../images/bookmark-black.svg);
 }
 
+.card__button_path_main_active {
+  background-image: url(../../images/bookmark-active.svg);
+}
+
 .card__button_path_saved-news {
   background-image: url(../../images/trash-grey.svg);
 }
@@ -129,14 +134,29 @@
 @media screen and (max-width: 919px) {
   .card {
     height: 420px;
+    width: 32.6%;
   }
 
   .card__content {
     height: 270px;
+    padding: 16px;
+    justify-content: space-between;
   }
 
   .card__image {
     max-height: 150px;
+  }
+
+  .card__title {
+    font-size: 22px;
+    line-height: 1.1;
+    margin: 0;
+    padding-bottom: 3px;
+  }
+
+  .card__paragraph {
+    max-height: 88px;
+    -webkit-line-clamp: 4;
   }
 
   .card__absolute-content {
@@ -160,6 +180,7 @@
   .card {
     max-width: 288px;
     width: 100%;
+    justify-content: space-between;
   }
 
   .card__content {
@@ -167,12 +188,22 @@
     gap: 8px;
   }
 
+  .card__date {
+    margin-bottom: 2px;
+  }
+
   .card__title {
     font-size: 22px;
     line-height: 1.1;
+    /* margin-bottom: 3px; */
+  }
+
+  .card__paragraph {
+    margin: 0;
   }
 
   .card__image {
+    max-height: 196px;
     height: 196px;
   }
 }

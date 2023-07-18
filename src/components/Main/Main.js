@@ -9,7 +9,11 @@ function Main({ searchBtnClick, isSearching, newsApiError }) {
         Find the latest news on any topic and save them in your personal
         account.
       </p>
-      <SearchForm searchBtnClick={searchBtnClick} isSearching={isSearching} newsApiError={newsApiError} />
+      <SearchForm
+        searchBtnClick={searchBtnClick}
+        isSearching={isSearching}
+        newsApiError={newsApiError}
+      />
     </main>
   );
 }

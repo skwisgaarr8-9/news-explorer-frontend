@@ -24,6 +24,11 @@
   bottom: 140px;
 }
 
+.error-message_content_api {
+  bottom: 130px;
+  left: 125px;
+}
+
 @media screen and (max-width: 501px) {
   .error-message_content_search-form {
     top: 35px;

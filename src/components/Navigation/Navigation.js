@@ -1,7 +1,9 @@
+import React from 'react';
 import { NavLink, useMatch } from 'react-router-dom';
 import logOutWhite from '../../images/logout-white.svg';
 import logOutBlack from '../../images/logout-black.svg';
 import './Navigation.css';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function Navigation({
   isLoggedIn,
@@ -12,6 +14,7 @@ function Navigation({
   handleSavedArticlesClick,
 }) {
   const match = useMatch('/');
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <nav className={isLoggedIn ? 'nav nav_loggedin' : 'nav nav_loggedout'}>
@@ -47,7 +50,7 @@ function Navigation({
                 : 'nav__button nav__button_path_saved-news nav__button_content_logout'
             }
           >
-            Elise
+            {currentUser.name}
             <img src={match ? logOutWhite : logOutBlack} alt="log out" />
           </button>
         </>

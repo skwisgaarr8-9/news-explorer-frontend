@@ -14,10 +14,13 @@ import getNewsData from '../../utils/newsApi';
 import Preloader from '../Preloader/Preloader';
 import { API_KEY, placeholder } from '../../utils/constants';
 import MenuModal from '../MenuModal/MenuModal';
+import { auth } from '../../utils/Auth';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { api } from '../../utils/MainApi';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [newsArticles, setNewsArticles] = React.useState(null);
   const [searchTopic, setSearchTopic] = React.useState(null);
   const [numberOfCards, setNumberOfCards] = React.useState(3);
@@ -26,9 +29,15 @@ function App() {
   //place holder value until back end is written in later stage
   const [savedNewsArticles, setSavedNewsArticles] = React.useState(null);
   const [newsApiError, setNewsApiError] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [apiError, setApiError] = React.useState(null);
   const match = useMatch('/');
 
+  const token = localStorage.getItem('jwt');
+
   const closeModal = () => {
+    setApiError(null);
     setActiveModal(null);
   };
 
@@ -42,7 +51,49 @@ function App() {
   };
 
   const handleLogoutClick = () => {
+    setNewsArticles(null);
+    setIsSearching(false);
+    localStorage.clear();
     setIsLoggedIn(false);
+  };
+
+  const handleUserRegistration = (inputValues) => {
+    setIsLoading(true);
+    auth
+      .register(inputValues)
+      .then(() => {
+        handleUserLogin(inputValues);
+      })
+      .catch((err) => {
+        if (err.includes('409')) {
+          setApiError('Email already in use');
+        }
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const handleUserLogin = (inputValues) => {
+    setIsLoading(true);
+    auth
+      .login(inputValues)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('jwt', data.token);
+          closeModal();
+        }
+      })
+      .catch((err) => {
+        if (err.includes('401') || err.includes('400')) {
+          setApiError('Incorrect email or password');
+        }
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const searchBtnClick = (topic) => {
@@ -100,89 +151,112 @@ function App() {
     setSavedNewsArticles(placeholder);
   }, []);
 
+  React.useEffect(() => {
+    if (token) {
+      api
+        .getUser(token)
+        .then((data) => {
+          setCurrentUser(data.data);
+          setIsLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [token]);
+
   return (
-    <div className="page">
-      <div
-        className={
-          match
-            ? 'page__content page__content_path_main'
-            : 'page__content page__content_path_saved-news'
-        }
-      >
-        <Header
-          isLoggedIn={isLoggedIn}
-          handleSigninClick={handleSigninClick}
-          handleLogoutClick={handleLogoutClick}
-          handleHomeClick={handleHomeClick}
-          handleMobileMenuClick={handleMobileMenuClick}
-          handleSavedArticlesClick={handleSavedArticlesClick}
-        />
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              <Main
-                searchBtnClick={searchBtnClick}
-                isSearching={isSearching}
-                newsApiError={newsApiError}
-              />
-            }
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <div
+          className={
+            match
+              ? 'page__content page__content_path_main'
+              : 'page__content page__content_path_saved-news'
+          }
+        >
+          <Header
+            isLoggedIn={isLoggedIn}
+            handleSigninClick={handleSigninClick}
+            handleLogoutClick={handleLogoutClick}
+            handleHomeClick={handleHomeClick}
+            handleMobileMenuClick={handleMobileMenuClick}
+            handleSavedArticlesClick={handleSavedArticlesClick}
           />
-          <Route
-            path="/saved-news"
-            element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <SavedNews
-                  isLoggedIn={isLoggedIn}
-                  newsArticles={savedNewsArticles}
-                  handleSigninClick={handleSigninClick}
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <Main
+                  setActiveModal={setActiveModal}
+                  searchBtnClick={searchBtnClick}
+                  isSearching={isSearching}
+                  newsApiError={newsApiError}
                 />
-              </ProtectedRoute>
-            }
+              }
+            />
+            <Route
+              path="/saved-news"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <SavedNews
+                    isLoggedIn={isLoggedIn}
+                    newsArticles={savedNewsArticles}
+                    handleSigninClick={handleSigninClick}
+                  />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </div>
+        {isSearching && (
+          <Preloader isSearching={isSearching} nothingFound={nothingFound} />
+        )}
+        {newsArticles && match && (
+          <NewsCardList
+            searchTopic={searchTopic}
+            numberOfCards={numberOfCards}
+            newsArticles={newsArticles}
+            isLoggedIn={isLoggedIn}
+            handleSigninClick={handleSigninClick}
+            handleSeeMoreClick={handleSeeMoreClick}
           />
-        </Routes>
+        )}
+        {match && <About />}
+        <Footer handleHomeClick={handleHomeClick} />
+        {activeModal === 'login' && (
+          <LoginModal
+            apiError={apiError}
+            isLoading={isLoading}
+            handleUserLogin={handleUserLogin}
+            isActive={true}
+            closeModal={closeModal}
+            handleRegisterClick={handleRegisterClick}
+          />
+        )}
+        {activeModal === 'register' && (
+          <RegisterModal
+            apiError={apiError}
+            isActive={true}
+            closeModal={closeModal}
+            handleLoginClick={handleLoginClick}
+            handleUserRegistration={handleUserRegistration}
+            isLoading={isLoading}
+          />
+        )}
+        {activeModal === 'menu' && (
+          <MenuModal
+            closeModal={closeModal}
+            handleSigninClick={handleSigninClick}
+            isActive={true}
+            isLoggedIn={isLoggedIn}
+            handleLogoutClick={handleLogoutClick}
+            handleHomeClick={handleHomeClick}
+          />
+        )}
       </div>
-      {isSearching && (
-        <Preloader isSearching={isSearching} nothingFound={nothingFound} />
-      )}
-      {newsArticles && match && (
-        <NewsCardList
-          searchTopic={searchTopic}
-          numberOfCards={numberOfCards}
-          newsArticles={newsArticles}
-          isLoggedIn={isLoggedIn}
-          handleSigninClick={handleSigninClick}
-          handleSeeMoreClick={handleSeeMoreClick}
-        />
-      )}
-      {match && <About />}
-      <Footer handleHomeClick={handleHomeClick} />
-      {activeModal === 'login' && (
-        <LoginModal
-          isActive={true}
-          closeModal={closeModal}
-          handleRegisterClick={handleRegisterClick}
-        />
-      )}
-      {activeModal === 'register' && (
-        <RegisterModal
-          isActive={true}
-          closeModal={closeModal}
-          handleLoginClick={handleLoginClick}
-        />
-      )}
-      {activeModal === 'menu' && (
-        <MenuModal
-          closeModal={closeModal}
-          handleSigninClick={handleSigninClick}
-          isActive={true}
-          isLoggedIn={isLoggedIn}
-          handleLogoutClick={handleLogoutClick}
-          handleHomeClick={handleHomeClick}
-        />
-      )}
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 

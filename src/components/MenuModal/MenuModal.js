@@ -1,7 +1,9 @@
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './MenuModal.css';
 import { useEscape } from '../../hooks/useEscape';
 import logOut from '../../images/logout-white.svg';
-import { NavLink } from 'react-router-dom';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function MenuModal({
   closeModal,
@@ -10,8 +12,10 @@ function MenuModal({
   isLoggedIn,
   handleLogoutClick,
   handleHomeClick,
+  handleSavedArticlesClick,
 }) {
   useEscape(handleCloseModal);
+  const currentUser = React.useContext(CurrentUserContext);
 
   const handleClickOutsideClose = (evt) => {
     if (evt.target.classList.contains('modal')) {
@@ -63,7 +67,10 @@ function MenuModal({
             <NavLink
               className="menu-modal__nav-link menu-modal__nav-link_content_saved-articles"
               to="/saved-news"
-              onClick={closeModal}
+              onClick={() => {
+                closeModal();
+                handleSavedArticlesClick();
+              }}
             >
               Saved articles
             </NavLink>
@@ -75,7 +82,7 @@ function MenuModal({
             type="button"
             onClick={handleLogoutClick}
           >
-            Elise
+            {currentUser.name}
             <img src={logOut} alt="logout" />
           </button>
         ) : (

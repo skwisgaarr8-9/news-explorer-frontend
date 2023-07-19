@@ -25,8 +25,8 @@
 }
 
 .error-message_content_api {
-  bottom: 130px;
-  left: 125px;
+  position: relative;
+  align-self: center;
 }
 
 @media screen and (max-width: 501px) {
@@ -45,5 +45,9 @@
 
   .error-message_content_username {
     bottom: 290px;
+  }
+
+  .error-message_content_api {
+    margin-bottom: 5px;
   }
 }

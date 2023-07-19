@@ -4,9 +4,9 @@ const weekPriorDateString = new Date(
   currentDate.getTime() - 7 * 24 * 60 * 60 * 1000
 ).toLocaleDateString('sv-SE');
 
-const getNewsData = ({ apiKey, topic }) => {
+const getNewsData = ({ apiKey, keyword }) => {
   return fetch(
-    `https://newsapi.org/v2/everything?q=${topic}&from=${weekPriorDateString}&to=${currentDateString}&pageSize=100`,
+    `https://newsapi.org/v2/everything?q=${keyword}&from=${weekPriorDateString}&to=${currentDateString}&pageSize=100`,
     {
       method: 'GET',
       headers: {

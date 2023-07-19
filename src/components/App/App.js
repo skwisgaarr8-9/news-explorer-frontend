@@ -12,26 +12,27 @@ import SavedNews from '../SavedNews/SavedNews';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import getNewsData from '../../utils/newsApi';
 import Preloader from '../Preloader/Preloader';
-import { API_KEY, placeholder } from '../../utils/constants';
+import { API_KEY } from '../../utils/constants';
 import MenuModal from '../MenuModal/MenuModal';
 import { auth } from '../../utils/Auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [newsArticles, setNewsArticles] = React.useState(null);
-  const [searchTopic, setSearchTopic] = React.useState(null);
+  const [keyword, setKeyword] = React.useState(null);
   const [numberOfCards, setNumberOfCards] = React.useState(3);
   const [isSearching, setIsSearching] = React.useState(false);
   const [nothingFound, setNothingFound] = React.useState(false);
-  //place holder value until back end is written in later stage
-  const [savedNewsArticles, setSavedNewsArticles] = React.useState(null);
+  const [savedNewsArticles, setSavedNewsArticles] = React.useState([]);
   const [newsApiError, setNewsApiError] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [apiError, setApiError] = React.useState(null);
+  const [selectedArticleId, setSelectedArticleId] = React.useState(null);
   const match = useMatch('/');
 
   const token = localStorage.getItem('jwt');
@@ -47,7 +48,7 @@ function App() {
     setNewsArticles(null);
     setIsSearching(false);
     localStorage.removeItem('articles');
-    localStorage.removeItem('topic');
+    localStorage.removeItem('keyword');
   };
 
   const handleLogoutClick = () => {
@@ -75,6 +76,17 @@ function App() {
       });
   };
 
+  const getUserArticles = (token) => {
+    api
+      .getArticles(token)
+      .then((data) => {
+        setSavedNewsArticles(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleUserLogin = (inputValues) => {
     setIsLoading(true);
     auth
@@ -82,6 +94,7 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem('jwt', data.token);
+          getUserArticles(data.token);
           closeModal();
         }
       })
@@ -96,12 +109,24 @@ function App() {
       });
   };
 
-  const searchBtnClick = (topic) => {
-    setSearchTopic(topic);
+  const handleDeleteArticle = () => {
+    setIsLoading(true);
+    api.deleteArticle(selectedArticleId, token).then(() => {
+      const updatedSavedArticles = savedNewsArticles.filter(
+        (article) => article._id !== selectedArticleId
+      );
+      setSavedNewsArticles([...updatedSavedArticles]);
+      closeModal();
+      setSelectedArticleId(null);
+    });
+  };
+
+  const searchBtnClick = (keyword) => {
+    setKeyword(keyword);
     setNewsArticles(null);
     setNothingFound(false);
     setIsSearching(true);
-    getNewsData({ apiKey: API_KEY, topic })
+    getNewsData({ apiKey: API_KEY, keyword })
       .then((data) => {
         if (data.articles.length === 0) {
           setNothingFound(true);
@@ -109,7 +134,7 @@ function App() {
           setNewsArticles(data.articles);
           setIsSearching(false);
           localStorage.setItem('articles', JSON.stringify(data.articles));
-          localStorage.setItem('topic', topic);
+          localStorage.setItem('keyword', keyword);
         }
       })
       .catch((err) => {
@@ -119,8 +144,21 @@ function App() {
       });
   };
 
+  const handleSaveArticle = (card) => {
+    api
+      .saveArticle(card, token)
+      .then((data) => {
+        setSavedNewsArticles([...savedNewsArticles, data.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleSavedArticlesClick = () => {
-    setSavedNewsArticles(placeholder);
+    if (savedNewsArticles.length < 1) {
+      getUserArticles(token);
+    }
   };
 
   const handleMobileMenuClick = () => {
@@ -143,12 +181,16 @@ function App() {
     setNumberOfCards(numberOfCards + 3);
   };
 
+  const handleDeleteButtonClick = (articleId) => {
+    setActiveModal('delete');
+    setSelectedArticleId(articleId);
+  };
+
   React.useEffect(() => {
     if (localStorage.getItem('articles')) {
       setNewsArticles(JSON.parse(localStorage.getItem('articles')));
-      setSearchTopic(localStorage.getItem('topic'));
+      setKeyword(localStorage.getItem('keyword'));
     }
-    setSavedNewsArticles(placeholder);
   }, []);
 
   React.useEffect(() => {
@@ -204,6 +246,7 @@ function App() {
                   setActiveModal={setActiveModal}
                 >
                   <SavedNews
+                    handleDeleteButtonClick={handleDeleteButtonClick}
                     isLoggedIn={isLoggedIn}
                     newsArticles={savedNewsArticles}
                     handleSigninClick={handleSigninClick}
@@ -218,7 +261,8 @@ function App() {
         )}
         {newsArticles && match && (
           <NewsCardList
-            searchTopic={searchTopic}
+            handleSaveArticle={handleSaveArticle}
+            keyword={keyword}
             numberOfCards={numberOfCards}
             newsArticles={newsArticles}
             isLoggedIn={isLoggedIn}
@@ -256,6 +300,17 @@ function App() {
             isLoggedIn={isLoggedIn}
             handleLogoutClick={handleLogoutClick}
             handleHomeClick={handleHomeClick}
+            handleSavedArticlesClick={handleSavedArticlesClick}
+          />
+        )}
+        {activeModal === 'delete' && (
+          <ConfirmationModal
+            closeModal={closeModal}
+            isActive={true}
+            buttonText={'Delete'}
+            title={'Are you sure you want to remove this card?'}
+            name={'delete'}
+            handleButton={handleDeleteArticle}
           />
         )}
       </div>

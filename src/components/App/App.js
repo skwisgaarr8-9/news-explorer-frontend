@@ -199,7 +199,10 @@ function App() {
             <Route
               path="/saved-news"
               element={
-                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  setActiveModal={setActiveModal}
+                >
                   <SavedNews
                     isLoggedIn={isLoggedIn}
                     newsArticles={savedNewsArticles}

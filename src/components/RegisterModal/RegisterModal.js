@@ -10,7 +10,7 @@ function RegisterModal({
   handleLoginClick,
   handleUserRegistration,
   isLoading,
-  apiError
+  apiError,
 }) {
   const {
     values,
@@ -50,7 +50,7 @@ function RegisterModal({
 
   return (
     <ModalWithForm
-    apiError={apiError}
+      apiError={apiError}
       title={'Sign up'}
       name="register"
       closeModal={closeModal}
@@ -69,6 +69,7 @@ function RegisterModal({
         id="email"
         value={values.email}
         name="email"
+        pattern="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}"
         autoComplete="off"
         placeholder="Enter email"
         required

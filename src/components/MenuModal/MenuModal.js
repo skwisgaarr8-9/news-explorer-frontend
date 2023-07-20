@@ -67,10 +67,7 @@ function MenuModal({
             <NavLink
               className="menu-modal__nav-link menu-modal__nav-link_content_saved-articles"
               to="/saved-news"
-              onClick={() => {
-                closeModal();
-                handleSavedArticlesClick();
-              }}
+              onClick={closeModal}
             >
               Saved articles
             </NavLink>

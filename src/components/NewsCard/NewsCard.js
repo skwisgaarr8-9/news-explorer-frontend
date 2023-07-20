@@ -9,6 +9,7 @@ function NewsCard({
   handleSaveArticle,
   keyword,
   handleDeleteButtonClick,
+  handleDeleteArticle,
 }) {
   const match = useMatch('/');
   const card =
@@ -38,15 +39,21 @@ function NewsCard({
   };
 
   const handleCardClick = () => {
-    // window.open(card.link, '_blank');
-    console.log(card);
+    window.open(card.link, '_blank');
   };
 
   const handleBookMarkButtonClick = (evt) => {
-    handleSaveArticle(card);
-    evt.target.parentElement
-      .querySelector('.card__button_path_main')
-      .classList.toggle('card__button_path_main_active');
+    const bookmarkButton = evt.target.parentElement.querySelector(
+      '.card__button_path_main'
+    );
+
+    if (bookmarkButton.classList.contains('card__button_path_main_active')) {
+      handleDeleteArticle();
+      bookmarkButton.classList.remove('card__button_path_main_active');
+    } else {
+      handleSaveArticle(card);
+      bookmarkButton.classList.add('card__button_path_main_active');
+    }
   };
 
   const date = new Date(card.date).toLocaleDateString('en-US', {
@@ -83,7 +90,7 @@ function NewsCard({
             Sign in to save articles
           </button>
           <button
-            onClick={isLoggedIn ? handleBookMarkButtonClick : null}
+            onClick={isLoggedIn ? handleBookMarkButtonClick : handleSigninClick}
             className="card__button card__button_path_main"
             type="button"
           ></button>

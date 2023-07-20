@@ -37,10 +37,50 @@ function App() {
 
   const token = localStorage.getItem('jwt');
 
+  //effects
+
+  React.useEffect(() => {
+    if (localStorage.getItem('articles')) {
+      setNewsArticles(JSON.parse(localStorage.getItem('articles')));
+      setKeyword(localStorage.getItem('keyword'));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (token) {
+      api
+        .getUser(token)
+        .then((data) => {
+          setCurrentUser(data.data);
+          setIsLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      getUserArticles(token);
+    }
+  }, [token]);
+
+  //modal functions
+
   const closeModal = () => {
     setApiError(null);
     setActiveModal(null);
   };
+
+  const handleMobileMenuClick = () => {
+    setActiveModal('menu');
+  };
+
+  const handleSigninClick = () => {
+    setActiveModal('login');
+  };
+
+  const handleRegisterClick = () => {
+    setActiveModal('register');
+  };
+
+  //button functions
 
   const handleHomeClick = () => {
     setNewsApiError(null);
@@ -58,12 +98,23 @@ function App() {
     setIsLoggedIn(false);
   };
 
+  const handleSeeMoreClick = () => {
+    setNumberOfCards(numberOfCards + 3);
+  };
+
+  const handleDeleteButtonClick = (articleId) => {
+    setActiveModal('delete');
+    setSelectedArticleId(articleId);
+  };
+
+  //api functions
+
   const handleUserRegistration = (inputValues) => {
     setIsLoading(true);
     auth
       .register(inputValues)
       .then(() => {
-        handleUserLogin(inputValues);
+        setActiveModal('confirm');
       })
       .catch((err) => {
         if (err.includes('409')) {
@@ -111,17 +162,26 @@ function App() {
 
   const handleDeleteArticle = () => {
     setIsLoading(true);
-    api.deleteArticle(selectedArticleId, token).then(() => {
-      const updatedSavedArticles = savedNewsArticles.filter(
-        (article) => article._id !== selectedArticleId
-      );
-      setSavedNewsArticles([...updatedSavedArticles]);
-      closeModal();
-      setSelectedArticleId(null);
-    });
+    api
+      .deleteArticle(selectedArticleId, token)
+      .then(() => {
+        const updatedSavedArticles = savedNewsArticles.filter(
+          (article) => article._id !== selectedArticleId
+        );
+        setSavedNewsArticles([...updatedSavedArticles]);
+        setSelectedArticleId(null);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  const searchBtnClick = (keyword) => {
+  const searchBtnClick = (data) => {
+    const keyword = data.charAt(0).toUpperCase() + data.slice(1);
+    setNumberOfCards(3);
     setKeyword(keyword);
     setNewsArticles(null);
     setNothingFound(false);
@@ -149,63 +209,12 @@ function App() {
       .saveArticle(card, token)
       .then((data) => {
         setSavedNewsArticles([...savedNewsArticles, data.data]);
+        setSelectedArticleId(data.data._id);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  const handleSavedArticlesClick = () => {
-    if (savedNewsArticles.length < 1) {
-      getUserArticles(token);
-    }
-  };
-
-  const handleMobileMenuClick = () => {
-    setActiveModal('menu');
-  };
-
-  const handleSigninClick = () => {
-    setActiveModal('login');
-  };
-
-  const handleRegisterClick = () => {
-    setActiveModal('register');
-  };
-
-  const handleLoginClick = () => {
-    setActiveModal('login');
-  };
-
-  const handleSeeMoreClick = () => {
-    setNumberOfCards(numberOfCards + 3);
-  };
-
-  const handleDeleteButtonClick = (articleId) => {
-    setActiveModal('delete');
-    setSelectedArticleId(articleId);
-  };
-
-  React.useEffect(() => {
-    if (localStorage.getItem('articles')) {
-      setNewsArticles(JSON.parse(localStorage.getItem('articles')));
-      setKeyword(localStorage.getItem('keyword'));
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (token) {
-      api
-        .getUser(token)
-        .then((data) => {
-          setCurrentUser(data.data);
-          setIsLoggedIn(true);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [token]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -223,7 +232,6 @@ function App() {
             handleLogoutClick={handleLogoutClick}
             handleHomeClick={handleHomeClick}
             handleMobileMenuClick={handleMobileMenuClick}
-            handleSavedArticlesClick={handleSavedArticlesClick}
           />
           <Routes>
             <Route
@@ -268,6 +276,7 @@ function App() {
             isLoggedIn={isLoggedIn}
             handleSigninClick={handleSigninClick}
             handleSeeMoreClick={handleSeeMoreClick}
+            handleDeleteArticle={handleDeleteArticle}
           />
         )}
         {match && <About />}
@@ -287,7 +296,7 @@ function App() {
             apiError={apiError}
             isActive={true}
             closeModal={closeModal}
-            handleLoginClick={handleLoginClick}
+            handleLoginClick={handleSigninClick}
             handleUserRegistration={handleUserRegistration}
             isLoading={isLoading}
           />
@@ -300,17 +309,26 @@ function App() {
             isLoggedIn={isLoggedIn}
             handleLogoutClick={handleLogoutClick}
             handleHomeClick={handleHomeClick}
-            handleSavedArticlesClick={handleSavedArticlesClick}
           />
         )}
         {activeModal === 'delete' && (
           <ConfirmationModal
             closeModal={closeModal}
             isActive={true}
-            buttonText={'Delete'}
+            buttonText={isLoading ? 'Deleting...' : 'Delete'}
             title={'Are you sure you want to remove this card?'}
             name={'delete'}
             handleButton={handleDeleteArticle}
+          />
+        )}
+        {activeModal === 'confirm' && (
+          <ConfirmationModal
+            closeModal={closeModal}
+            isActive={true}
+            buttonText={'Sign in'}
+            title={'Registration successfully completed!'}
+            name={'confirm'}
+            handleButton={handleSigninClick}
           />
         )}
       </div>

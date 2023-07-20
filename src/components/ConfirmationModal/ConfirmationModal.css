@@ -14,3 +14,14 @@
 .confirmation__button:hover {
   opacity: 0.6;
 }
+
+@media screen and (max-width: 501px) {
+  .confirmation {
+    padding-top: 80px;
+    align-items: start;
+  }
+
+  .confirmation__container {
+    padding: 16px;
+  }
+}

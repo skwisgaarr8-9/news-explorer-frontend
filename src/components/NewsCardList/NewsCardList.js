@@ -11,7 +11,8 @@ function NewsCardList({
   numberOfCards,
   keyword,
   handleSaveArticle,
-  handleDeleteButtonClick
+  handleDeleteButtonClick,
+  handleDeleteArticle,
 }) {
   const match = useMatch('/');
 
@@ -23,7 +24,7 @@ function NewsCardList({
       <ul className="cards__list">
         {newsArticles.slice(0, numberOfCards).map((article, index) => (
           <NewsCard
-          handleDeleteButtonClick={handleDeleteButtonClick}
+            handleDeleteButtonClick={handleDeleteButtonClick}
             keyword={keyword}
             handleSaveArticle={handleSaveArticle}
             key={index}
@@ -31,6 +32,7 @@ function NewsCardList({
             isLoggedIn={isLoggedIn}
             handleSigninClick={handleSigninClick}
             numberOfCards={numberOfCards}
+            handleDeleteArticle={handleDeleteArticle}
           />
         ))}
       </ul>

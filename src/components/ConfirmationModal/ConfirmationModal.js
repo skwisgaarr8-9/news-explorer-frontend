@@ -2,8 +2,6 @@ import { useEscape } from '../../hooks/useEscape';
 import './ConfirmationModal.css';
 
 function ConfirmationModal({
-  name,
-  handleDeleteArticle,
   isActive,
   closeModal,
   buttonText,
@@ -37,7 +35,10 @@ function ConfirmationModal({
         <button
           className="confirmation__button"
           type="button"
-          onClick={handleButton}
+          onClick={() => {
+            handleButton();
+            handleCloseModal();
+          }}
         >
           {buttonText}
         </button>

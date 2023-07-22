@@ -22,12 +22,12 @@ function NewsCardList({
         <h2 className="cards__title">{`Search results: ${keyword}`}</h2>
       )}
       <ul className="cards__list">
-        {newsArticles.slice(0, numberOfCards).map((article, index) => (
+        {newsArticles.slice(0, numberOfCards).map((article) => (
           <NewsCard
             handleDeleteButtonClick={handleDeleteButtonClick}
             keyword={keyword}
             handleSaveArticle={handleSaveArticle}
-            key={index}
+            key={article._id}
             cardInfo={article}
             isLoggedIn={isLoggedIn}
             handleSigninClick={handleSigninClick}

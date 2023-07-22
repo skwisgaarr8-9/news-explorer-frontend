@@ -1,13 +1,19 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-function ProtectedRoute({ children, isLoggedIn, setActiveModal }) {
+function ProtectedRoute({
+  children,
+  isLoggedIn,
+  setActiveModal,
+  isCheckingToken,
+}) {
   React.useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isCheckingToken && !isLoggedIn) {
       setActiveModal('login');
     }
-  }, [isLoggedIn, setActiveModal]);
-  if (!isLoggedIn) {
+  }, [isLoggedIn, setActiveModal, isCheckingToken]);
+
+  if (!isLoggedIn && !isCheckingToken) {
     return <Navigate to="/" />;
   }
 

@@ -30,9 +30,11 @@ function App() {
   const [savedNewsArticles, setSavedNewsArticles] = React.useState([]);
   const [newsApiError, setNewsApiError] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isCheckingToken, setIsCheckingToken] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState({});
   const [apiError, setApiError] = React.useState(null);
   const [selectedArticleId, setSelectedArticleId] = React.useState(null);
+
   const match = useMatch('/');
 
   const token = localStorage.getItem('jwt');
@@ -48,6 +50,7 @@ function App() {
 
   React.useEffect(() => {
     if (token) {
+      setIsCheckingToken(true);
       api
         .getUser(token)
         .then((data) => {
@@ -55,9 +58,17 @@ function App() {
           setIsLoggedIn(true);
         })
         .catch((err) => {
+          if (err.includes('401')) {
+            localStorage.removeItem('jwt');
+          }
           console.log(err);
+        })
+        .finally(() => {
+          setIsCheckingToken(false);
         });
       getUserArticles(token);
+    } else {
+      setIsCheckingToken(false);
     }
   }, [token]);
 
@@ -191,9 +202,12 @@ function App() {
         if (data.articles.length === 0) {
           setNothingFound(true);
         } else {
-          setNewsArticles(data.articles);
+          const articles = data.articles.map(
+            (article) => (article = { ...article, _id: Math.random() })
+          );
+          setNewsArticles(articles);
           setIsSearching(false);
-          localStorage.setItem('articles', JSON.stringify(data.articles));
+          localStorage.setItem('articles', JSON.stringify(articles));
           localStorage.setItem('keyword', keyword);
         }
       })
@@ -252,6 +266,7 @@ function App() {
                 <ProtectedRoute
                   isLoggedIn={isLoggedIn}
                   setActiveModal={setActiveModal}
+                  isCheckingToken={isCheckingToken}
                 >
                   <SavedNews
                     handleDeleteButtonClick={handleDeleteButtonClick}

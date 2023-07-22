@@ -11,7 +11,6 @@ function Navigation({
   handleLogoutClick,
   handleHomeClick,
   handleMobileMenuClick,
-  handleSavedArticlesClick,
 }) {
   const match = useMatch('/');
   const currentUser = React.useContext(CurrentUserContext);
@@ -32,7 +31,6 @@ function Navigation({
       {isLoggedIn ? (
         <>
           <NavLink
-            onClick={handleSavedArticlesClick}
             className={({ isActive }) =>
               isActive
                 ? 'nav__link nav__link_path_saved-news_active'
@@ -42,17 +40,19 @@ function Navigation({
           >
             Saved articles
           </NavLink>
-          <button
-            onClick={handleLogoutClick}
-            className={
-              match
-                ? 'nav__button nav__button_path_main nav__button_content_logout'
-                : 'nav__button nav__button_path_saved-news nav__button_content_logout'
-            }
-          >
-            {currentUser.name}
-            <img src={match ? logOutWhite : logOutBlack} alt="log out" />
-          </button>
+          <NavLink className="nav__link" to="/">
+            <button
+              onClick={handleLogoutClick}
+              className={
+                match
+                  ? 'nav__button nav__button_path_main nav__button_content_logout'
+                  : 'nav__button nav__button_path_saved-news nav__button_content_logout'
+              }
+            >
+              {currentUser.name}
+              <img src={match ? logOutWhite : logOutBlack} alt="log out" />
+            </button>
+          </NavLink>
         </>
       ) : (
         <>

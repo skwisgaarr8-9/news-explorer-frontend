@@ -8,44 +8,32 @@ function ConfirmationModal({
   title,
   handleButton,
 }) {
-  useEscape(handleCloseModal);
+  useEscape(closeModal);
 
   const handleClickOutsideClose = (evt) => {
     if (evt.target.classList.contains('modal')) {
-      handleCloseModal();
+      closeModal();
     }
   };
 
-  if (isActive) {
-    setTimeout(() => {
-      document.querySelector('.modal').classList.add('modal_opened');
-    }, 10);
-  }
-
-  function handleCloseModal() {
-    setTimeout(() => {
-      closeModal();
-    }, 250);
-    document.querySelector('.modal').classList.remove('modal_opened');
-  }
   return (
-    <div className="modal confirmation" onClick={handleClickOutsideClose}>
+    <div
+      className={`modal confirmation ${!isActive ? '' : 'modal_opened'}`}
+      onClick={handleClickOutsideClose}
+    >
       <div className="modal__container confirmation__container">
         <h2 className="modal__title">{title}</h2>
         <button
           className="confirmation__button"
           type="button"
-          onClick={() => {
-            handleButton();
-            handleCloseModal();
-          }}
+          onClick={handleButton}
         >
           {buttonText}
         </button>
         <button
           className="modal__close-button"
           type="button"
-          onClick={handleCloseModal}
+          onClick={closeModal}
         />
       </div>
     </div>

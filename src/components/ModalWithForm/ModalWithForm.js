@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEscape } from '../../hooks/useEscape';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import './ModalWithForm.css';
@@ -9,35 +10,22 @@ function ModalWithForm({
   closeModal,
   submitButtonText,
   handleSubmit,
-  isActive,
   handleRedirect,
   isFormValid,
   apiError,
+  isActive,
 }) {
-  useEscape(handleCloseModal);
+  useEscape(closeModal);
 
   const handleClickOutsideClose = (evt) => {
     if (evt.target.classList.contains('modal')) {
-      handleCloseModal();
+      closeModal();
     }
   };
 
-  if (isActive) {
-    setTimeout(() => {
-      document.querySelector('.modal').classList.add('modal_opened');
-    }, 10);
-  }
-
-  function handleCloseModal() {
-    setTimeout(() => {
-      closeModal();
-    }, 250);
-    document.querySelector('.modal').classList.remove('modal_opened');
-  }
-
   return (
     <div
-      className={`modal modal_type_${name}`}
+      className={`modal modal_type_${name} ${!isActive ? '' : 'modal_opened'}`}
       onMouseDown={handleClickOutsideClose}
     >
       <div className="modal__container">
@@ -71,7 +59,7 @@ function ModalWithForm({
         <button
           className="modal__close-button"
           type="button"
-          onClick={handleCloseModal}
+          onClick={closeModal}
         />
       </div>
     </div>

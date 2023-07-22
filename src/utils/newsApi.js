@@ -4,13 +4,13 @@ const weekPriorDateString = new Date(
   currentDate.getTime() - 7 * 24 * 60 * 60 * 1000
 ).toLocaleDateString('sv-SE');
 
-const getNewsData = ({ apiKey, topic }) => {
+const getNewsData = ({ apiKey, keyword }) => {
   return fetch(
-    `https://newsapi.org/v2/everything?q=${topic}&from=${weekPriorDateString}&to=${currentDateString}&pageSize=100`,
+    `https://nomoreparties.co/news/v2/everything?q=${keyword}&from=${weekPriorDateString}&to=${currentDateString}&pageSize=100&apiKey=${apiKey}`,
     {
       method: 'GET',
       headers: {
-        'X-API-KEY': apiKey,
+        'Content-Type': 'application/json',
       },
     }
   ).then((res) => {

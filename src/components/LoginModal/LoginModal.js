@@ -4,7 +4,14 @@ import { useForm } from '../../hooks/useForm';
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-function LoginModal({ closeModal, isActive, handleRegisterClick }) {
+function LoginModal({
+  closeModal,
+  isActive,
+  handleRegisterClick,
+  handleUserLogin,
+  isLoading,
+  apiError,
+}) {
   const {
     values,
     handleChange,
@@ -35,15 +42,17 @@ function LoginModal({ closeModal, isActive, handleRegisterClick }) {
   }, [isActive, setValues]);
 
   const handleSubmit = (evt) => {
+    handleUserLogin(values);
     evt.preventDefault();
   };
 
   return (
     <ModalWithForm
+      apiError={apiError}
       title={'Sign in'}
       name="login"
       closeModal={closeModal}
-      submitButtonText={'Sign in'}
+      submitButtonText={isLoading ? 'Signing in...' : 'Sign in'}
       handleSubmit={handleSubmit}
       isActive={isActive}
       handleRedirect={handleRegisterClick}
@@ -58,6 +67,7 @@ function LoginModal({ closeModal, isActive, handleRegisterClick }) {
         id="email"
         value={values.email}
         name="email"
+        pattern="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}"
         autoComplete="off"
         placeholder="Enter email"
         required

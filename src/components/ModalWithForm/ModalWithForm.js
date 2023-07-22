@@ -1,4 +1,5 @@
 import { useEscape } from '../../hooks/useEscape';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import './ModalWithForm.css';
 
 function ModalWithForm({
@@ -11,6 +12,7 @@ function ModalWithForm({
   isActive,
   handleRedirect,
   isFormValid,
+  apiError,
 }) {
   useEscape(handleCloseModal);
 
@@ -42,6 +44,12 @@ function ModalWithForm({
         <form className="modal__form form" onSubmit={handleSubmit}>
           <h2 className="modal__title">{title}</h2>
           {children}
+          {apiError && (
+            <ErrorMessage
+              errorMessage={apiError}
+              className={'error-message error-message_content_api'}
+            />
+          )}
           <button
             disabled={!isFormValid}
             className="modal__button"

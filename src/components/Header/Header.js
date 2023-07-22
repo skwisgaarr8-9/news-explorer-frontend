@@ -8,7 +8,6 @@ function Header({
   handleLogoutClick,
   handleHomeClick,
   handleMobileMenuClick,
-  handleSavedArticlesClick,
 }) {
   const match = useMatch('/');
 
@@ -32,7 +31,6 @@ function Header({
         handleSigninClick={handleSigninClick}
         handleLogoutClick={handleLogoutClick}
         handleMobileMenuClick={handleMobileMenuClick}
-        handleSavedArticlesClick={handleSavedArticlesClick}
       />
     </header>
   );

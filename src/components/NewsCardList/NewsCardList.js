@@ -9,23 +9,30 @@ function NewsCardList({
   handleSigninClick,
   handleSeeMoreClick,
   numberOfCards,
-  searchTopic,
+  keyword,
+  handleSaveArticle,
+  handleDeleteButtonClick,
+  handleDeleteArticle,
 }) {
   const match = useMatch('/');
 
   return (
     <section className={match ? 'cards' : 'cards cards_path_saved-news'}>
       {match && (
-        <h2 className="cards__title">{`Search results: ${searchTopic}`}</h2>
+        <h2 className="cards__title">{`Search results: ${keyword}`}</h2>
       )}
       <ul className="cards__list">
-        {newsArticles.slice(0, numberOfCards).map((article, index) => (
+        {newsArticles.slice(0, numberOfCards).map((article) => (
           <NewsCard
-            key={index}
+            handleDeleteButtonClick={handleDeleteButtonClick}
+            keyword={keyword}
+            handleSaveArticle={handleSaveArticle}
+            key={article._id}
             cardInfo={article}
             isLoggedIn={isLoggedIn}
             handleSigninClick={handleSigninClick}
             numberOfCards={numberOfCards}
+            handleDeleteArticle={handleDeleteArticle}
           />
         ))}
       </ul>

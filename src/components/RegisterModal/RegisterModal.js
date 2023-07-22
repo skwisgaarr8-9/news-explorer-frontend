@@ -4,7 +4,14 @@ import ModalWithForm from '../ModalWithForm/ModalWithForm';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { useForm } from '../../hooks/useForm';
 
-function RegisterModal({ closeModal, isActive, handleLoginClick }) {
+function RegisterModal({
+  closeModal,
+  isActive,
+  handleLoginClick,
+  handleUserRegistration,
+  isLoading,
+  apiError,
+}) {
   const {
     values,
     handleChange,
@@ -15,7 +22,7 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
   } = useForm({
     email: '',
     password: '',
-    username: '',
+    name: '',
   });
 
   React.useEffect(() => {
@@ -23,7 +30,7 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
       setValues({
         email: '',
         password: '',
-        username: '',
+        name: '',
       });
     }
   }, [isActive, setValues]);
@@ -38,14 +45,16 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    handleUserRegistration(values);
   };
 
   return (
     <ModalWithForm
+      apiError={apiError}
       title={'Sign up'}
       name="register"
       closeModal={closeModal}
-      submitButtonText={'Sign up'}
+      submitButtonText={isLoading ? 'Registering...' : 'Sign up'}
       handleSubmit={handleSubmit}
       isActive={isActive}
       handleRedirect={handleLoginClick}
@@ -60,6 +69,7 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
         id="email"
         value={values.email}
         name="email"
+        pattern="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}"
         autoComplete="off"
         placeholder="Enter email"
         required
@@ -92,15 +102,15 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
           className={'error-message error-message_content_password'}
         />
       )}
-      <label className="form__label" htmlFor="username">
+      <label className="form__label" htmlFor="name">
         Username
       </label>
       <input
         className="form__input"
         type="text"
-        id="username"
-        name="username"
-        value={values.username}
+        id="name"
+        name="name"
+        value={values.name}
         autoComplete="off"
         placeholder="Enter your username"
         required
@@ -108,7 +118,7 @@ function RegisterModal({ closeModal, isActive, handleLoginClick }) {
         minLength={2}
         maxLength={30}
       />
-      {isInvalid.username && (
+      {isInvalid.name && (
         <ErrorMessage
           errorMessage={'Invalid username'}
           className={'error-message error-message_content_username'}

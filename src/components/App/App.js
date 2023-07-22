@@ -21,6 +21,7 @@ import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 function App() {
   const [activeModal, setActiveModal] = React.useState(null);
+  const [isActive, setIsActive] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [newsArticles, setNewsArticles] = React.useState(null);
   const [keyword, setKeyword] = React.useState(null);
@@ -76,18 +77,30 @@ function App() {
 
   const closeModal = () => {
     setApiError(null);
-    setActiveModal(null);
+    setIsActive(false);
+    setTimeout(() => {
+      setActiveModal(null);
+    }, 250);
   };
 
   const handleMobileMenuClick = () => {
+    setTimeout(() => {
+      setIsActive(true);
+    }, 10);
     setActiveModal('menu');
   };
 
   const handleSigninClick = () => {
+    setTimeout(() => {
+      setIsActive(true);
+    }, 10);
     setActiveModal('login');
   };
 
   const handleRegisterClick = () => {
+    setTimeout(() => {
+      setIsActive(true);
+    }, 10);
     setActiveModal('register');
   };
 
@@ -114,6 +127,9 @@ function App() {
   };
 
   const handleDeleteButtonClick = (articleId) => {
+    setTimeout(() => {
+      setIsActive(true);
+    }, 10);
     setActiveModal('delete');
     setSelectedArticleId(articleId);
   };
@@ -298,10 +314,10 @@ function App() {
         <Footer handleHomeClick={handleHomeClick} />
         {activeModal === 'login' && (
           <LoginModal
+            isActive={isActive}
             apiError={apiError}
             isLoading={isLoading}
             handleUserLogin={handleUserLogin}
-            isActive={true}
             closeModal={closeModal}
             handleRegisterClick={handleRegisterClick}
           />
@@ -309,7 +325,7 @@ function App() {
         {activeModal === 'register' && (
           <RegisterModal
             apiError={apiError}
-            isActive={true}
+            isActive={isActive}
             closeModal={closeModal}
             handleLoginClick={handleSigninClick}
             handleUserRegistration={handleUserRegistration}
@@ -320,7 +336,7 @@ function App() {
           <MenuModal
             closeModal={closeModal}
             handleSigninClick={handleSigninClick}
-            isActive={true}
+            isActive={isActive}
             isLoggedIn={isLoggedIn}
             handleLogoutClick={handleLogoutClick}
             handleHomeClick={handleHomeClick}
@@ -329,7 +345,7 @@ function App() {
         {activeModal === 'delete' && (
           <ConfirmationModal
             closeModal={closeModal}
-            isActive={true}
+            isActive={isActive}
             buttonText={isLoading ? 'Deleting...' : 'Delete'}
             title={'Are you sure you want to remove this card?'}
             name={'delete'}
@@ -339,7 +355,7 @@ function App() {
         {activeModal === 'confirm' && (
           <ConfirmationModal
             closeModal={closeModal}
-            isActive={true}
+            isActive={isActive}
             buttonText={'Sign in'}
             title={'Registration successfully completed!'}
             name={'confirm'}

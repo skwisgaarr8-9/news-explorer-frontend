@@ -6,11 +6,11 @@ const weekPriorDateString = new Date(
 
 const getNewsData = ({ apiKey, keyword }) => {
   return fetch(
-    `https://newsapi.org/v2/everything?q=${keyword}&from=${weekPriorDateString}&to=${currentDateString}&pageSize=100`,
+    `https://nomoreparties.co/news/v2/everything?q=${keyword}&from=${weekPriorDateString}&to=${currentDateString}&pageSize=100&apiKey=${apiKey}`,
     {
       method: 'GET',
       headers: {
-        'X-API-KEY': apiKey,
+        'Content-Type': 'application/json',
       },
     }
   ).then((res) => {

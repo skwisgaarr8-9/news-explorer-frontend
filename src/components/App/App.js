@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useMatch } from 'react-router-dom';
+import { Routes, Route, useMatch, Navigate } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -283,6 +283,7 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   setActiveModal={setActiveModal}
                   isCheckingToken={isCheckingToken}
+                  setIsActive={setIsActive}
                 >
                   <SavedNews
                     handleDeleteButtonClick={handleDeleteButtonClick}
@@ -293,6 +294,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
         {isSearching && (

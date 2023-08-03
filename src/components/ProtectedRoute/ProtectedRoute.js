@@ -6,12 +6,16 @@ function ProtectedRoute({
   isLoggedIn,
   setActiveModal,
   isCheckingToken,
+  setIsActive,
 }) {
   React.useEffect(() => {
     if (!isCheckingToken && !isLoggedIn) {
       setActiveModal('login');
+      setTimeout(() => {
+        setIsActive(true);
+      }, 10);
     }
-  }, [isLoggedIn, setActiveModal, isCheckingToken]);
+  }, [isLoggedIn, setActiveModal, isCheckingToken, setIsActive]);
 
   if (!isLoggedIn && !isCheckingToken) {
     return <Navigate to="/" />;

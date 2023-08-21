@@ -197,6 +197,7 @@ function App() {
         );
         setSavedNewsArticles([...updatedSavedArticles]);
         setSelectedArticleId(null);
+        closeModal();
       })
       .catch((err) => {
         console.log(err);
